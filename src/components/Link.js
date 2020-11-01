@@ -1,9 +1,36 @@
-import React from 'react'
+import React from "react";
+import { AUTH_TOKEN } from "../constants";
+import { timeDifferenceForDate } from "../utils";
 
-const Link = (props) => <div>
-    <div>
-        {props.link.description}({props.link.url})
+const Link = (props) => {
+    const authToken = localStorage.getItem(AUTH_TOKEN)
+
+
+
+  return (
+    <div className="flex mt2 items-start">
+      <div className="flex items-center">
+        <span className="gray">{props.index + 1}.</span>
+        {authToken && (
+          <div className="ml1 gray f11" onClick={() => {}}>
+            ▲
+          </div>
+        )}
+      </div>
+      <div className="ml1">
+        <div>
+          {props.link.description} ({props.link.url})
+        </div>
+        <div className="f6 lh-copy gray">
+          {props.link.votes.length} votes | by{' '}
+          {props.link.postedBy
+            ? props.link.postedBy.name
+            : 'Unknown'}{' '}
+          {timeDifferenceForDate(props.link.createdAt)}
+        </div>
+      </div>
     </div>
-</div>
+  );
+};
 
-export default Link
+export default Link;

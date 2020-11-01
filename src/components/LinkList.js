@@ -11,6 +11,17 @@ const LinkList = (props) => {
             id
             url
             description
+            createdAt
+            postedBy{
+                id
+                name
+            }
+            votes{
+                id
+                user {
+                    id
+                }
+            }
         }
     }}
     `
@@ -23,7 +34,7 @@ const LinkList = (props) => {
                 return <div>Error</div>
             }
             const linksToRender = data.feed.links
-            return linksToRender.map(link => <Link key={link.id} link={link}/>)
+            return linksToRender.map((link,index) => <Link key={link.id} link={link} index={index}/>)
         }}
     </Query>)
 
