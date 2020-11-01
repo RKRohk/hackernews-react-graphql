@@ -26,7 +26,7 @@ const VOTE_MUTATION = gql`
 
 const Link = (props) => {
   const authToken = localStorage.getItem(AUTH_TOKEN);
-
+  console.log(props.link)
   return (
     <div className="flex mt2 items-start">
       <div className="flex items-center">
@@ -34,7 +34,7 @@ const Link = (props) => {
         {authToken && (
           <Mutation
             mutation={VOTE_MUTATION}
-            variables={props.link.id}
+            variables={{linkId:props.link.id}}
             update={(store, { data: { vote } }) => {
               props.updateStoreAfterVote(store, vote, props.link.id);
             }}
