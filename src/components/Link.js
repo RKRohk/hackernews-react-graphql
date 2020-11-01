@@ -1,20 +1,50 @@
+import { gql } from "apollo-boost";
 import React from "react";
+import { Mutation } from "react-apollo";
 import { AUTH_TOKEN } from "../constants";
 import { timeDifferenceForDate } from "../utils";
 
+const VOTE_MUTATION = gql`
+  mutation VoteMutation($linkId: ID!) {
+    vote(linkId: $linkId) {
+      id
+      link {
+        id
+        votes {
+          id
+          user {
+            id
+          }
+        }
+      }
+      user {
+        id
+      }
+    }
+  }
+`;
+
 const Link = (props) => {
-    const authToken = localStorage.getItem(AUTH_TOKEN)
-
-
+  const authToken = localStorage.getItem(AUTH_TOKEN);
 
   return (
     <div className="flex mt2 items-start">
       <div className="flex items-center">
         <span className="gray">{props.index + 1}.</span>
         {authToken && (
-          <div className="ml1 gray f11" onClick={() => {}}>
-            ▲
-          </div>
+          <Mutation
+            mutation={VOTE_MUTATION}
+            variables={props.link.id}
+            update={(store, { data: { vote } }) => {
+              props.updateStoreAfterVote(store, vote, props.link.id);
+            }}
+          >
+            {(voteMutation) => (
+              <div className="ml1 gray f11" onClick={voteMutation}>
+                ▲
+              </div>
+            )}
+          </Mutation>
         )}
       </div>
       <div className="ml1">
@@ -22,10 +52,8 @@ const Link = (props) => {
           {props.link.description} ({props.link.url})
         </div>
         <div className="f6 lh-copy gray">
-          {props.link.votes.length} votes | by{' '}
-          {props.link.postedBy
-            ? props.link.postedBy.name
-            : 'Unknown'}{' '}
+          {props.link.votes.length} votes | by{" "}
+          {props.link.postedBy ? props.link.postedBy.name : "Unknown"}{" "}
           {timeDifferenceForDate(props.link.createdAt)}
         </div>
       </div>
