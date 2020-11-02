@@ -15,10 +15,10 @@ import {WebSocketLink} from 'apollo-link-ws'
 import { split } from "apollo-link";
 import { getMainDefinition } from "apollo-utilities";
 
-const httpLink = createHttpLink({ uri: "http://localhost:4000" });
+const httpLink = createHttpLink({uri:"/graphql"});
 
 const wsLink = new WebSocketLink({
-  uri:"ws://localhost:4000",
+  uri:"ws:///subscriptions",
   options:{
     reconnect:true,
     connectionParams:{
