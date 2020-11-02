@@ -14,11 +14,12 @@ import { AUTH_TOKEN } from "./constants";
 import {WebSocketLink} from 'apollo-link-ws'
 import { split } from "apollo-link";
 import { getMainDefinition } from "apollo-utilities";
+const website = "hackernews-rohan-graphql.herokuapp.com"
 
-const httpLink = createHttpLink({uri:"/graphql"});
+const httpLink = createHttpLink({uri:`https://${website}/graphql`});
 
 const wsLink = new WebSocketLink({
-  uri:"wss:///subscriptions",
+  uri:`wss://${website}/subscriptions`,
   options:{
     reconnect:true,
     connectionParams:{
