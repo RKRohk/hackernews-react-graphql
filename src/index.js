@@ -18,7 +18,7 @@ import { getMainDefinition } from "apollo-utilities";
 const httpLink = createHttpLink({uri:"/graphql"});
 
 const wsLink = new WebSocketLink({
-  uri:"ws:///subscriptions",
+  uri:"wss:///subscriptions",
   options:{
     reconnect:true,
     connectionParams:{
